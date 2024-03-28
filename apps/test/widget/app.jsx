@@ -54,6 +54,24 @@ const handleKey = (e) => {
   }
 };
 
+const handleSave = () => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: value // Assuming value holds the data you want to send
+  };
+
+  const data = fetch('http://localhost:3001/user', requestOptions);
+  console.log(data.body)
+    
+   
+};
+
+
+
+
 return (
   <div>
     <NumberLine>
@@ -68,6 +86,8 @@ return (
       // placeholder="Enter your code here..."
       //  onKeyDown={handleKey}
     />
-    <h3>{ent}</h3>
+    <button
+    onClick={handleSave}
+    ></button>
   </div>
 );
