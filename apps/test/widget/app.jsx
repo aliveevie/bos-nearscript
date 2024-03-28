@@ -1,4 +1,6 @@
 const [value, setValue] = useState("");
+const [active, setActive] = useState(false);
+const [data, setData] = useState([]);
 
 function handleValueChange(e) {
   setValue(e.target.value);
@@ -52,8 +54,56 @@ const Buttons = styled.div`
       }
       width: 60%;
 `
+const Output = styled.div`
 
-const [ent, setEnt] = useState("");
+.output {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #1e1e1e;
+  padding: 10px;
+  color: white;
+  display:none
+}
+
+.output h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  color: white;
+}
+
+.console {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #2e2e2e;
+  padding: 20px;
+  font-size: medium;
+  width: 60%;
+}
+
+.console div {
+  margin-bottom: 10px;
+}
+
+.console p {
+  margin: 0;
+}
+
+.console strong {
+  color: #9cdcfe;
+}
+
+.console a {
+  color: #4ec9b0;
+  text-decoration: none;
+}
+
+.builder-container {
+  float: right; /* or use display: inline-block; */
+  margin-left: 20px; /* adjust as needed */
+}
+
+`
+
 
 const handleKey = (e) => {
   if (e.key === "Enter") {
@@ -81,11 +131,13 @@ const handleSave = () => {
     body: value // Assuming value holds the data you want to send
   };
 
-  const data = fetch('http://localhost:3001/user', requestOptions);
+  const response = fetch('http://localhost:3001/user', requestOptions);
+
+  setData(response.body)
   
 };
 
-const [active, setActive] = useState(false);
+
 
 
 
@@ -115,5 +167,18 @@ return (
       // placeholder="Enter your code here..."
       //  onKeyDown={handleKey}
     />
+     <Output className="output" >
+      <h3>Output</h3>
+      <div className='console'>
+        {data.map((data, key) => (
+          <div key={key}>
+          <p><strong>Account ID:</strong> {data.Account_id} <button onClick={() => copyToClipboard(data.Account_id)}>Copy</button></p>
+          <p><strong>Contract Name:</strong> {data.ContractName} <button onClick={() => copyToClipboard(data.ContractName)}>Copy</button></p>
+          <p><strong>Transaction ID:</strong> {data.Trasaction_id} <button onClick={() => copyToClipboard(data.Trasaction_id)}>Copy</button></p>
+          <p><strong>Transaction Info:</strong> <a href={data.Trasaction_info} target='_blank'>{data.Trasaction_info}</a> <button onClick={() => copyToClipboard(data.Trasaction_info)}>Copy</button></p>
+          </div>
+        ))}
+      </div>
+    </Output>
   </div>
 );
