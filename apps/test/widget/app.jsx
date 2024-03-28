@@ -10,8 +10,8 @@ const coding = {
   fontFamily: "monospace",
   border: "none",
   padding: "10px",
-  width: "100%",
-  height: "800px",
+  width: "60%",
+  height: "400px",
   resize: "none",
   outline: "none",
   overflow: "auto",
@@ -50,6 +50,7 @@ const Buttons = styled.div`
         cursor: not-allowed;
         
       }
+      width: 60%;
 `
 
 const [ent, setEnt] = useState("");
