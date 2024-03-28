@@ -25,7 +25,7 @@ const NumberLine = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 0;
+    bottom: 10;
     width: 40px;
     padding: 10px;
     color: rgba(255, 255, 255, 0.5);
@@ -34,6 +34,23 @@ const NumberLine = styled.div`
     user-select: none;
     margin-left: 5px;
 `;
+
+const Buttons = styled.div`
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      button.disabled {
+        opacity: 0.5;
+      }
+      
+      button.disabled:hover {
+        background-color: inherit; /* Override hover background */
+        color: inherit; /* Override hover color */
+        cursor: not-allowed;
+        
+      }
+`
 
 const [ent, setEnt] = useState("");
 
@@ -64,16 +81,27 @@ const handleSave = () => {
   };
 
   const data = fetch('http://localhost:3001/user', requestOptions);
-  console.log(data.body)
-    
-   
+  
 };
 
+const [active, setActive] = useState(false);
 
 
 
 return (
   <div>
+    <Buttons>
+    <button onClick={handleSave} type='submit'>Build</button>
+      <button
+        onClick={handleRunFile}
+        type='submit'
+        disabled={!active}
+        className={active ? '' : 'disabled'}
+      >
+        {active ? 'Deploy' : 'Deploy (Disabled)'}
+      </button>
+   
+    </Buttons>
     <NumberLine>
       {Array.from({ length: 20 }).map((_, index) => (
         <div key={index}>{index + 1}</div>
@@ -86,8 +114,5 @@ return (
       // placeholder="Enter your code here..."
       //  onKeyDown={handleKey}
     />
-    <button
-    onClick={handleSave}
-    ></button>
   </div>
 );
