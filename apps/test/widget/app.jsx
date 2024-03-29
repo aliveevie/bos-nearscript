@@ -3,10 +3,17 @@ const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
 const [source, setSource] = useState('');
 const [showBuilder, setShowBuilder] = useState(false);
+const [text, setText] = useState("");
 const builder = "https://i.ibb.co/fp8wDPB/builder.gif";
 const success = 'https://i.ibb.co/FHBZLBq/success.gif';
 const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
 const erro = 'https://i.ibb.co/jRMcyCV/error.gif';
+
+const { Builder } = VM.require(
+  "/*__@appAccount__*//widget/builder.Builder"
+) || {
+  Builder: () => <></>,
+};
 
 
 function handleValueChange(e) {
@@ -135,23 +142,20 @@ const handleSave = () => {
     body: value // Assuming value holds the data you want to send
   };
 
-  
+    setShowBuilder(true);
+    setText("Building Your Contract");
+    setSource(builder);
 
   const response = fetch('http://localhost:3001/user', requestOptions);
 
   setData(response.body);
 
-  if(response.body=="Contract Build successfully"){
-      
-  }
-
-  
 };
 
 
 return (
   <div>
-
+    <Builder  source={source} text={text} />
     <Buttons>
     <button onClick={handleSave} type='submit'>Build</button>
       <button
