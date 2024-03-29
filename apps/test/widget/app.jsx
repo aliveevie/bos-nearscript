@@ -1,10 +1,17 @@
 const [value, setValue] = useState("");
 const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
+const [source, setSource] = useState('');
+const builder = "https://i.ibb.co/fp8wDPB/builder.gif";
+const success = 'https://i.ibb.co/FHBZLBq/success.gif';
+const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
+const erro = 'https://i.ibb.co/jRMcyCV/error.gif';
+
 
 function handleValueChange(e) {
   setValue(e.target.value);
-}
+};
+
 
 const coding = {
   background: "black",
@@ -50,24 +57,21 @@ const Buttons = styled.div`
         background-color: inherit; /* Override hover background */
         color: inherit; /* Override hover color */
         cursor: not-allowed;
-        
       }
       width: 60%;
-`
-const Output = styled.div`
+`;
 
-.output {
+const Output = styled.div`
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #1e1e1e;
   padding: 10px;
   color: white;
-  display:none
-}
+  width: 60%;
 
-.output h3 {
+ h3 {
   margin: 0 0 10px;
-  font-size: 16px;
+  font-size: 10px;
   color: white;
 }
 
@@ -77,7 +81,7 @@ const Output = styled.div`
   background-color: #2e2e2e;
   padding: 20px;
   font-size: medium;
-  width: 60%;
+  width: 100%;
 }
 
 .console div {
@@ -101,8 +105,7 @@ const Output = styled.div`
   float: right; /* or use display: inline-block; */
   margin-left: 20px; /* adjust as needed */
 }
-
-`
+`;
 
 
 const handleKey = (e) => {
@@ -138,11 +141,14 @@ const handleSave = () => {
 };
 
 
-
-
-
 return (
   <div>
+
+  <img 
+  src={erro}
+  alt="Builder"
+  />
+
     <Buttons>
     <button onClick={handleSave} type='submit'>Build</button>
       <button
