@@ -2,6 +2,7 @@ const [value, setValue] = useState("");
 const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
 const [source, setSource] = useState('');
+const [showBuilder, setShowBuilder] = useState(false);
 const builder = "https://i.ibb.co/fp8wDPB/builder.gif";
 const success = 'https://i.ibb.co/FHBZLBq/success.gif';
 const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
@@ -134,20 +135,22 @@ const handleSave = () => {
     body: value // Assuming value holds the data you want to send
   };
 
+  
+
   const response = fetch('http://localhost:3001/user', requestOptions);
 
-  setData(response.body)
+  setData(response.body);
+
+  if(response.body=="Contract Build successfully"){
+      
+  }
+
   
 };
 
 
 return (
   <div>
-
-  <img 
-  src={erro}
-  alt="Builder"
-  />
 
     <Buttons>
     <button onClick={handleSave} type='submit'>Build</button>
