@@ -3,7 +3,7 @@ const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
 const [source, setSource] = useState('');
 const [showBuilder, setShowBuilder] = useState(false);
-const [text, setText] = useState("");
+const [text, setText] = useState("Hello World");
 const builder = "https://i.ibb.co/fp8wDPB/builder.gif";
 const success = 'https://i.ibb.co/FHBZLBq/success.gif';
 const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
@@ -115,6 +115,11 @@ const Output = styled.div`
 }
 `;
 
+const BuilderContainer = styled.div`
+  float: right; /* or use display: inline-block; */
+  margin-left: 20px; /* adjust as needed */
+`;
+
 
 const handleKey = (e) => {
   if (e.key === "Enter") {
@@ -155,7 +160,12 @@ const handleSave = () => {
 
 return (
   <div>
-    <Builder  source={source} text={text} />
+
+    <BuilderContainer>
+          <Builder  source={builder} text={text} />
+    </BuilderContainer>
+
+
     <Buttons>
     <button onClick={handleSave} type='submit'>Build</button>
       <button

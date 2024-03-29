@@ -15,7 +15,6 @@ const Container=styled.div`
 function Builder({ source, text }) {
     return (
         <Container>
-            <h3>This is a builder</h3>
             <img src={source}  />
             <p>{text}</p>
         </Container>
