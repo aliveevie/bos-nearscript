@@ -1,4 +1,3 @@
-const [value, setValue] = useState("");
 const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
 const [source, setSource] = useState('');
@@ -9,6 +8,14 @@ const success = 'https://i.ibb.co/FHBZLBq/success.gif';
 const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
 const erro = 'https://i.ibb.co/jRMcyCV/error.gif';
 
+const [value, setValue] = useState(`import { NearBindgen, near, call, view } from 'near-sdk-js';
+// Write Your Smart Contract in Typescript please
+// This editor accept only Typescript
+// Dont Worry about the import error
+// Just build your contract  
+  `);
+
+    
 
 
 function handleValueChange(e) {
@@ -31,6 +38,7 @@ const coding = {
   "::placeholder": {
     color: "rgba(255, 255, 255, 0.5)",
   },
+ 
 };
 
 const NumberLine = styled.div`
@@ -235,11 +243,7 @@ return (
       </button>
    
     </Buttons>
-    <NumberLine>
-      {Array.from({ length: 20 }).map((_, index) => (
-        <div key={index}>{index + 1}</div>
-      ))}
-    </NumberLine>
+   
     <textarea
       style={coding}
       value={value}
