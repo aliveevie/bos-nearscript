@@ -3,17 +3,12 @@ const [active, setActive] = useState(false);
 const [data, setData] = useState([]);
 const [source, setSource] = useState('');
 const [showBuilder, setShowBuilder] = useState(false);
-const [text, setText] = useState("Hello World");
+const [text, setText] = useState("");
 const builder = "https://i.ibb.co/fp8wDPB/builder.gif";
 const success = 'https://i.ibb.co/FHBZLBq/success.gif';
 const deploy = 'https://i.ibb.co/dD232QF/deploy.gif';
 const erro = 'https://i.ibb.co/jRMcyCV/error.gif';
 
-const { Builder } = VM.require(
-  "/*__@appAccount__*//widget/builder.Builder"
-) || {
-  Builder: () => <></>,
-};
 
 
 function handleValueChange(e) {
@@ -120,25 +115,34 @@ const BuilderContainer = styled.div`
   margin-left: 20px; /* adjust as needed */
 `;
 
+const Container=styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This ensures the container takes up the full height of the viewport */
 
-const handleKey = (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    const startPos = e.target.selectionStart;
-    const endPos = e.target.selectionEnd;
-    setValue((prevValue) => {
-      const newValue =
-        prevValue.substring(0, startPos) + "\n" + prevValue.substring(endPos);
-      return newValue;
-    });
-    setTimeout(() => {
-      const textarea = e.target;
-      textarea.setSelectionRange(startPos + 1, startPos + 1);
-    }, 0);
-  }
-};
 
-const handleSave = () => {
+.text{
+    display: block;
+    text-align: center;
+}
+
+`;
+
+function Builder({ source, text }) {
+    return (
+        <Container>
+            <img src={source}  />
+            <p>{text}</p>
+        </Container>
+    );
+}
+
+
+
+
+
+const handleSave = async () => {
   const requestOptions = {
     method: 'POST',
     headers: {
@@ -151,10 +155,64 @@ const handleSave = () => {
     setText("Building Your Contract");
     setSource(builder);
 
-  const response = fetch('http://localhost:3001/user', requestOptions);
+  const response = asyncFetch('http://localhost:3001/user', requestOptions);
+  
+  response.then(response => {
+    setSource(success);
+    setText("Success");
+    setActive(true);
+    setTimeout(() => {
+        setShowBuilder(false);
+      }, 5000) 
+  })
+  .catch(error => {
+    console.error('Error saving file:', error);
+      setSource(erro);
+      setText("Build Failed, try again");
+      setTimeout(() => {
+        setShowBuilder(false);
+      }, 5000);
+  });
+};
 
-  setData(response.body);
 
+
+const handleRunFile = () => {
+
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    body: ".testnet" // Assuming value holds the data you want to send
+  };
+   
+  setShowBuilder(true);
+  setText("Deploying your Contract")
+  setSource(deploy);
+  // Send a POST request to the backend endpoint to run the file
+
+  const response = asyncFetch('http://localhost:3001/run-file', requestOptions);
+
+
+response
+    .then(response => {
+      console.log(response.body)
+      setData(response.body)
+      setSource(success);
+      setText("Deployed");
+      setTimeout(() => {
+          setShowBuilder(false);
+       
+        }, 5000) 
+    })
+    .catch(error => {
+        setSource(erro);
+        setText("Deploy Failed, Try again");
+        setTimeout(() => {
+        setShowBuilder(false);
+      }, 5000);
+    });
 };
 
 
@@ -162,9 +220,8 @@ return (
   <div>
 
     <BuilderContainer>
-          <Builder  source={builder} text={text} />
+            {showBuilder && <Builder source={source} text={text} />}
     </BuilderContainer>
-
 
     <Buttons>
     <button onClick={handleSave} type='submit'>Build</button>
