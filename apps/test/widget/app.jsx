@@ -11,13 +11,10 @@ const erro = 'https://i.ibb.co/jRMcyCV/error.gif';
 const [value, setValue] = useState(`import { NearBindgen, near, call, view } from 'near-sdk-js';
 // Write Your Smart Contract in Typescript please
 // This editor accept only Typescript
-// Dont Worry about the import error
 // Just build your contract  
   `);
 
-    
-
-
+  
 function handleValueChange(e) {
   setValue(e.target.value);
 };
@@ -183,6 +180,14 @@ const handleSave = async () => {
   });
 };
 
+const output = [
+  {
+    Account_id: accountId,
+    Trasaction_id: "",
+    Trasaction_info: "",
+    ContractName: accountId + ".testnet",
+  },
+];
 
 
 const handleRunFile = () => {
@@ -206,7 +211,7 @@ const handleRunFile = () => {
 response
     .then(response => {
       console.log(response.body)
-      setData(response.body)
+      setData(output)
       setSource(success);
       setText("Deployed");
       setTimeout(() => {
@@ -217,6 +222,7 @@ response
     .catch(error => {
         setSource(erro);
         setText("Deploy Failed, Try again");
+       // setData([])
         setTimeout(() => {
         setShowBuilder(false);
       }, 5000);
